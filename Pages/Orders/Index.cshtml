@@ -1,0 +1,102 @@
+﻿@page
+@model PizzaApp.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find Order by Clients Name:
+            <input type="text" name="SearchString" calue="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-page="./Index">Back to full list</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Apartment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Cupon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Member)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].PizzaOrders)
+            </th>
+            <th>Final Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderD.Orders) {
+            string selectedRow = "";
+            if (item.Id  == Model.OrderId)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apartment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cupon.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.FullName)
+            </td>
+            <td>
+                    @{
+                        foreach(var pizza in item.PizzaOrders)
+                        {
+                            @pizza.Pizza.Id @: @pizza.Pizza.PizzaName <br/>
+                        }
+                    }
+            </td>
+            <td>
+                @item.CalculateFinalPrice()
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

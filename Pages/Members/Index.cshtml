@@ -1,0 +1,80 @@
+﻿@page "{id:int?}"
+@model PizzaApp.Pages.Members.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.FirstNameSort">
+                    @Html.DisplayNameFor(model => model.Member[0].FirstName)
+                </a>
+            </th>
+            
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.LastNameSort">
+                    @Html.DisplayNameFor(model => model.Member[0].LastName)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member[0].Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.MemberData.Member) {
+            string selectedRow = "";
+            if(item.Id == Model.MemberId)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@item.Id">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.MemberId != 0)
+{
+    var selectedMember = Model.MemberData.Member.FirstOrDefault(m => m.Id == Model.MemberId);
+    if (selectedMember != null)
+    {
+        <h3>Orders made by selected member</h3>
+        <table class="table">
+            @foreach (var o in selectedMember.Orders)
+            {
+                <tr>
+                    <td>Order Number: @o.Number</td>
+                    <td>Date: @o.Date</td>
+                    <td>Status: @o.Status</td>
+                </tr>
+            }
+        </table>
+    }
+}

@@ -1,0 +1,53 @@
+﻿@page
+@model PizzaApp.Pages.Pizzas.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pizza[0].PizzaName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pizza[0].BasePrice)
+            </th>
+            <th>
+                Ingredients
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Pizza) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PizzaName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BasePrice)
+            </td>
+            <td>
+                <ul>
+                        @foreach(var ingredient in item.PizzaIngredients)
+                        {
+                            <li>@ingredient.Ingredient.Name;</li>
+                        }
+                    </ul>
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

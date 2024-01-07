@@ -1,0 +1,89 @@
+﻿@page
+@model PizzaApp.Pages.Orders.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.Date" class="control-label"></label>
+                <input asp-for="Order.Date" class="form-control" />
+                <span asp-validation-for="Order.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Street" class="control-label"></label>
+                <input asp-for="Order.Street" class="form-control" />
+                <span asp-validation-for="Order.Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Number" class="control-label"></label>
+                <input asp-for="Order.Number" class="form-control" />
+                <span asp-validation-for="Order.Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Apartment" class="control-label"></label>
+                <input asp-for="Order.Apartment" class="form-control" />
+                <span asp-validation-for="Order.Apartment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Status" class="control-label"></label>
+                <input asp-for="Order.Status" class="form-control" />
+                <span asp-validation-for="Order.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.CuponId" class="control-label"></label>
+                <select asp-for="Order.CuponId" class ="form-control" asp-items="ViewBag.CuponId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.MemberId" class="control-label"></label>
+                <select asp-for="Order.MemberId" class ="form-control" asp-items="ViewBag.MemberId"></select>
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var pizza in Model.AssignedPizzaDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                    <input type="checkbox"
+                                           name="selectedPizzas"
+                                           value="@pizza.PizzaId"
+                                           @(Html.Raw(pizza.Assigned ?
+                                               "checked=\"checked\"":"")) />
+                                    @pizza.PizzaId @: @pizza.PizzaName
+                                    @:</td>
+                                }
+                                @:</tr>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
