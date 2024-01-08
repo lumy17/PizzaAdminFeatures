@@ -71,6 +71,7 @@ namespace PizzaApp.Pages.Pizzas
 
             pizzaToUpdate.PizzaName = Pizza.PizzaName;
             pizzaToUpdate.BasePrice = Pizza.BasePrice;
+            pizzaToUpdate.ImageUrl = Pizza.ImageUrl;
 
             // Actualizează lista de ingrediente
             _context.PizzaIngredient.RemoveRange(pizzaToUpdate.PizzaIngredients);
